@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fabric.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/fabric@5.3.0/dist/fabric.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
+    <style>
+      @font-face {
+        font-family: "Acumin";
+        src: url("./assets/fonts/Acumin-BdPro.otf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Gmarket";
+        src: url("./assets/fonts/GmarketSansTTFBold.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Typo";
+        src: url("./assets/fonts/Typo_SsangmunDong B.ttf") format("truetype");
+      }
+      #myCanvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="myCanvas" width="708" height="452"></canvas>
+    <button onclick="downloadImage()">이미지 다운로드</button>
+
+    <script>
+      const canvas = new fabric.Canvas("myCanvas", {
+        backgroundColor: "white", // 기본 배경색 (로드 전)
+        selection: false,
+      });
+
+      // 배경이미지 설정
+      fabric.Image.fromURL(
+        "dalmac_logo.jpeg",
+        function (img) {
+          img.scaleToWidth(canvas.width);
+          img.scaleToHeight(canvas.height);
+          canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+        },
+        { crossOrigin: "anonymous" }
+      );
+
+      // 폰트 로드 대기
+      document.fonts.ready.then(function () {
+        // Title 1
+        document.fonts.load("50px Gmarket").then(function () {
+          const text1 = new fabric.Text("타로 누아", {
+            left: 40,
+            top: 40,
+            charSpacing: -40,
+            fontFamily: "Gmarket",
+            fontSize: 80, // pt와 px 차이로 좀 키움
+            fill: "white",
+            fontWeight: "bold",
+
+            selectable: false,
+          });
+          canvas.add(text1);
+        });
+        // Title 2
+
+        const text2 = new fabric.Text("Lindemans Tarot Noir", {
+          left: 45,
+          top: 125,
+          fontFamily: "Acumin",
+          fontSize: 50,
+
+          fill: "white",
+          fontWeight: "bold",
+          selectable: false,
+        });
+        canvas.add(text2);
+
+        fabric.Image.fromURL("./assets/logo/four.png", function (img) {
+          img.set({
+            left: canvas.width - 150,
+            top: 30,
+          });
+          canvas.add(img);
+        });
+
+        fabric.Image.fromURL("./assets/logo/belgium.png", function (img) {
+          img.set({
+            left: 25,
+            top: 234,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            selectable: false,
+          });
+          canvas.add(img);
+        });
+
+        canvas.renderAll();
+      });
+
+      const IBU_Rect = new fabric.Rect({
+        left: 176,
+        top: 236,
+        width: 242,
+        height: 42,
+        fill: "rgba(0, 0, 0, 0)", // 투명한 배경
+        selectable: false,
+      });
+
+      const IBU = new fabric.Text("IBU", {
+        left: IBU_Rect.left + 15,
+        top: IBU_Rect.top + 8,
+        fontFamily: "Acumin",
+        fontSize: 25,
+
+        fill: "white",
+        fontWeight: "bold",
+        selectable: false,
+      });
+      canvas.add(IBU_Rect, IBU);
+      // HOP
+      fabric.Image.fromURL("./assets/logo/hop.png", function (img) {
+        img.set({
+          left: IBU_Rect.left + 80,
+          top: IBU_Rect.top + 5,
+          scaleX: 1.3,
+          scaleY: 1.3,
+          selectable: false,
+        });
+        canvas.add(img);
+      });
+      fabric.Image.fromURL("./assets/logo/hop.png", function (img) {
+        img.set({
+          left: IBU_Rect.left + 110,
+          top: IBU_Rect.top + 5,
+          scaleX: 1.3,
+          scaleY: 1.3,
+          opacity: 0.4,
+          selectable: false,
+        });
+        canvas.add(img);
+      });
+      fabric.Image.fromURL("./assets/logo/hop.png", function (img) {
+        img.set({
+          left: IBU_Rect.left + 140,
+          top: IBU_Rect.top + 5,
+          scaleX: 1.3,
+          scaleY: 1.3,
+          opacity: 0.4,
+          selectable: false,
+        });
+        canvas.add(img);
+      });
+      fabric.Image.fromURL("./assets/logo/hop.png", function (img) {
+        img.set({
+          left: IBU_Rect.left + 170,
+          top: IBU_Rect.top + 5,
+          scaleX: 1.3,
+          scaleY: 1.3,
+          opacity: 0.4,
+          selectable: false,
+        });
+        canvas.add(img);
+      });
+      fabric.Image.fromURL("./assets/logo/hop.png", function (img) {
+        img.set({
+          left: IBU_Rect.left + 200,
+          top: IBU_Rect.top + 5,
+          scaleX: 1.3,
+          scaleY: 1.3,
+          opacity: 0.4,
+          selectable: false,
+        });
+        canvas.add(img);
+      });
+
+      const ALC_Rect = new fabric.Rect({
+        left: 424,
+        top: 236,
+        width: 242,
+        height: 42,
+        fill: "rgba(0, 0, 0, 0)",
+        selectable: false,
+      });
+
+      const ALC = new fabric.Text("ALC", {
+        left: ALC_Rect.left + 15,
+        top: ALC_Rect.top + 8,
+        fontFamily: "Acumin",
+        fontSize: 25,
+        fill: "white",
+        fontWeight: "bold",
+        selectable: false,
+      });
+      canvas.add(ALC_Rect, ALC);
+
+      const ALC_BACKGROUND = new fabric.Rect({
+        left: ALC_Rect.left + 85,
+        top: ALC_Rect.top + 6,
+        width: 242 * 0.6,
+        height: 42 * 0.7,
+        fill: "yellow",
+        stroke: "#F2C235",
+
+        selectable: false,
+      });
+
+      const ALC_TEXT = new fabric.Text("4.0%", {
+        left: ALC_BACKGROUND.left + 45.3,
+        top: ALC_BACKGROUND.top + 2,
+        fontFamily: "Acumin",
+        fontSize: 23,
+        fill: "black",
+        fontWeight: "bold",
+        selectable: false,
+      });
+
+      canvas.add(ALC_BACKGROUND, ALC_TEXT);
+
+      const STYLE_Rect = new fabric.Rect({
+        left: 176,
+        top: 281,
+        width: 242,
+        height: 42,
+        fill: "rgb(0,0,0,0)", // 투명한 배경
+        selectable: false,
+      });
+
+      const STYLE = new fabric.Text("Wiess", {
+        left: STYLE_Rect.left + 15,
+        top: STYLE_Rect.top + 8,
+        fontFamily: "Acumin",
+        fontSize: 25,
+
+        fill: "white",
+        fontWeight: "bold",
+        selectable: false,
+      });
+      canvas.add(STYLE_Rect, STYLE);
+
+      const CHARACTER_Rect = new fabric.Rect({
+        left: 424,
+        top: 281,
+        width: 242,
+        height: 42,
+        fill: "rgb(0,0,0,0)",
+        selectable: false,
+      });
+
+      const CHARACTER = new fabric.Text("블랙베리 / Blackberry", {
+        left: CHARACTER_Rect.left + 15,
+        top: CHARACTER_Rect.top + 8,
+        fontFamily: "Acumin",
+        fontSize: 25,
+        fill: "white",
+        fontWeight: "bold",
+        selectable: false,
+      });
+      canvas.add(CHARACTER_Rect, CHARACTER);
+      document.fonts.load("50px Gmarket").then(function () {
+        const PRICE = new fabric.Text("7,500 원", {
+          left: 420,
+          top: 365,
+          fontFamily: "Gmarket",
+          fontSize: 60,
+          fill: "#C32534",
+          fontWeight: "bold",
+          selectable: false,
+        });
+        canvas.add(PRICE);
+      });
+      // 이미지 다운로드
+      function downloadImage() {
+        const base64 = canvas.toDataURL({
+          format: "jpeg",
+          quality: 1.0,
+        });
+
+        const exifObj = {
+          "0th": {
+            282: [300, 1], // XResolution (300 DPI)
+            283: [300, 1], // YResolution (300 DPI)
+            296: 2, // ResolutionUnit (2 = 인치)
+          },
+        };
+
+        const exifBytes = piexif.dump(exifObj);
+        const newData = piexif.insert(exifBytes, base64);
+
+        const link = document.createElement("a");
+        link.download = "output.jpeg";
+        link.href = newData;
+        link.click();
+      }
+    </script>
+  </body>
+</html>

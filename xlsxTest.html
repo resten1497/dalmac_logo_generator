@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 엑셀 파싱용 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fabric@5.3.0/dist/fabric.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
+    <!-- 이미지 압축용 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <input type="file" id="excelFile" />
+    js 복사 편집
+    <script>
+      document
+        .getElementById("excelFile")
+        .addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = async function (evt) {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = XLSX.utils.sheet_to_json(worksheet);
+
+            await generateZippedImages(json);
+          };
+
+          reader.readAsArrayBuffer(file);
+        });
+
+      async function generateZippedImages(dataArray) {
+        const zip = new JSZip();
+
+        for (let i = 0; i < dataArray.length; i++) {
+          const row = dataArray[i];
+          const dataUrl = await createImageAsDataUrl(row.title, row.subtitle);
+
+          // base64 형식에서 실제 바이너리 데이터 추출
+          const base64Data = dataUrl.split(",")[1];
+          zip.file(`image_${i + 1}.jpg`, base64Data, { base64: true });
+        }
+
+        // 압축하고 다운로드
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+          saveAs(content, "images.zip");
+        });
+      }
+
+      function createImageAsDataUrl(title = "", subtitle = "") {
+        return new Promise((resolve) => {
+          fabric.Image.fromURL("dalmac_logo.jpeg", function (bgImg) {
+            const canvas = new fabric.Canvas(null, { width: 708, height: 452 });
+
+            bgImg.scaleToWidth(canvas.width);
+            bgImg.scaleToHeight(canvas.height);
+            canvas.setBackgroundImage(bgImg, canvas.renderAll.bind(canvas));
+
+            const titleText = new fabric.Text(title, {
+              left: 40,
+              top: 100,
+              fontSize: 60,
+              fontFamily: "Gmarket",
+              fill: "white",
+              selectable: false,
+            });
+
+            const subText = new fabric.Text(subtitle, {
+              left: 40,
+              top: 150,
+              fontSize: 30,
+              fontFamily: "Acumin",
+              fill: "white",
+              selectable: false,
+            });
+
+            canvas.add(titleText, subText);
+            canvas.renderAll();
+
+            setTimeout(() => {
+              const dataURL = canvas.toDataURL({
+                format: "jpeg",
+                quality: 1.0,
+              });
+              resolve(dataURL);
+            }, 500);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
