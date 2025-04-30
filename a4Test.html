@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A4 Canvas 출력</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fabric@5.3.0/dist/fabric.min.js"></script>
+  </head>
+  <body>
+    <input type="file" id="excelFile" />
+    <button id="printBtn" style="display: none">A4로 출력</button>
+
+    <script>
+      document
+        .getElementById("excelFile")
+        .addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = async function (evt) {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = XLSX.utils.sheet_to_json(worksheet);
+
+            await generateMergedA4Image(json);
+          };
+
+          reader.readAsArrayBuffer(file);
+        });
+
+      async function generateMergedA4Image(dataArray) {
+        const cellWidth = 236; // 약 794 / 3 - padding 고려
+        const cellHeight = 150;
+        const rows = 3;
+        const cols = Math.ceil(dataArray.length / rows);
+
+        const canvasWidth = 794; // A4 width (px @ 96dpi)
+        const canvasHeight = cols * cellHeight;
+
+        const mergedCanvas = document.createElement("canvas");
+        mergedCanvas.width = canvasWidth;
+        mergedCanvas.height = canvasHeight;
+        const ctx = mergedCanvas.getContext("2d");
+
+        const imagePromises = dataArray.map((row) =>
+          createImageAsDataUrl(row.title, row.subtitle)
+        );
+        const images = await Promise.all(imagePromises);
+
+        images.forEach((dataURL, i) => {
+          const img = new Image();
+          img.src = dataURL;
+          const col = Math.floor(i / rows);
+          const row = i % rows;
+
+          img.onload = () => {
+            ctx.drawImage(
+              img,
+              row * cellWidth,
+              col * cellHeight,
+              cellWidth,
+              cellHeight
+            );
+          };
+        });
+
+        // 출력 버튼 활성화
+        document.getElementById("printBtn").style.display = "inline-block";
+        document.getElementById("printBtn").onclick = () => {
+          setTimeout(() => {
+            const dataUrl = mergedCanvas.toDataURL("image/png");
+            const printWindow = window.open("", "_blank");
+            if (!printWindow) {
+              alert("팝업 차단이 되어 있거나 새 창을 열 수 없습니다.");
+              return;
+            }
+
+            // 문서 구조 직접 구성
+            const doc = printWindow.document;
+            doc.open();
+
+            // 1. 기본 구조 생성
+            const html = doc.createElement("html");
+            const head = doc.createElement("head");
+            const body = doc.createElement("body");
+
+            // 2. 스타일 추가
+            const style = doc.createElement("style");
+            style.textContent = `
+    body { margin: 0; padding: 0; text-align: center; }
+    img { width: 100%; height: auto; }
+  `;
+            head.appendChild(style);
+
+            // 3. 이미지 요소 추가
+            const img = doc.createElement("img");
+            img.src = dataUrl;
+            img.onload = function () {
+              printWindow.focus();
+              printWindow.print();
+              printWindow.close();
+            };
+            body.appendChild(img);
+
+            // 4. 전체 문서 구성
+            html.appendChild(head);
+            html.appendChild(body);
+            doc.appendChild(html);
+            doc.close();
+          }, 500);
+        };
+      }
+
+      function createImageAsDataUrl(title = "", subtitle = "") {
+        return new Promise((resolve) => {
+          fabric.Image.fromURL("dalmac_logo.jpeg", function (bgImg) {
+            const canvas = new fabric.Canvas(null, { width: 708, height: 452 });
+
+            bgImg.scaleToWidth(canvas.width);
+            bgImg.scaleToHeight(canvas.height);
+            canvas.setBackgroundImage(bgImg, canvas.renderAll.bind(canvas));
+
+            const titleText = new fabric.Text(title, {
+              left: 40,
+              top: 100,
+              fontSize: 60,
+              fontFamily: "Gmarket",
+              fill: "white",
+              selectable: false,
+            });
+
+            const subText = new fabric.Text(subtitle, {
+              left: 40,
+              top: 180,
+              fontSize: 30,
+              fontFamily: "Acumin",
+              fill: "white",
+              selectable: false,
+            });
+
+            canvas.add(titleText, subText);
+            canvas.renderAll();
+
+            setTimeout(() => {
+              const dataURL = canvas.toDataURL({
+                format: "jpeg",
+                quality: 1.0,
+              });
+              resolve(dataURL);
+            }, 500);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
