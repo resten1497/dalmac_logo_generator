@@ -1,3 +1,46 @@
+// // 상수 정의
+// const COLORS = {
+//   background: "#BF1A20",
+//   textWhite: "white",
+//   textHighlight: "#C32534",
+//   alcBackground: "yellow",
+//   alcBorder: "#F2C235",
+// };
+// const FONTS = {
+//   title: "Gmarket",
+//   subtitle: "Acumin",
+// };
+// const DIMENSIONS = {
+//   canvasHeight: 350,
+//   alcWidth: 242 * 0.6,
+//   alcHeight: 42 * 0.7,
+// };
+
+// // 캔버스 초기화
+// const canvas = new fabric.Canvas("myCanvas", {
+//   backgroundColor: "white",
+//   selection: false,
+// });
+
+const canvas = new fabric.Canvas("myCanvas", {
+  width: 786,
+  height: 500,
+  backgroundColor: "white",
+  objectCaching: false,
+});
+let items = {
+  type: 1,
+  title: "조조조조",
+  sub_title: "CCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  ibu: 3,
+  country: "Belgium",
+  discount: 3,
+  alc: "4.0%",
+  style: "Pastry Imperial Stout",
+  character: "블랙베리 / Blackberry",
+  price: "7,500 원",
+};
+
 // 상수 정의
 const COLORS = {
   background: "#BF1A20",
@@ -11,30 +54,15 @@ const FONTS = {
   subtitle: "Acumin",
 };
 const DIMENSIONS = {
-  canvasHeight: 350,
-  alcWidth: 242 * 0.6,
+  canvasHeight: 380,
+  alcWidth: 242 * 0.65,
   alcHeight: 42 * 0.7,
 };
 
-// 캔버스 초기화
-const canvas = new fabric.Canvas("myCanvas", {
-  backgroundColor: "white",
-  selection: false,
-});
-
-let items = {
-  type: 1,
-  title: "조조조조조조조조조조조",
-  sub_title: "CCCCCCCCCCCCCCCCCCCCCCCCCCC",
-  ibu: 3,
-  country: "Belgium",
-  discount: 3,
-  alc: "4.0%",
-  style: "Pastry Imperial Stout",
-  character: "블랙베리 / Blackberry",
-  price: "7,500 원",
+const RectSIZE = {
+  width: 260,
+  height: 50,
 };
-
 // 배경 추가
 const Background = new fabric.Rect({
   width: canvas.width,
@@ -51,7 +79,7 @@ function addText(content, options) {
     selectable: false,
   });
   if (text.text.length > 20) {
-    text.set({ scaleX: 0.8 });
+    text.set({ scaleX: 0.83 });
   }
   canvas.add(text);
   return text;
@@ -83,8 +111,8 @@ function addFlagImage(url, options) {
   fabric.Image.fromURL(url, function (img) {
     console.log(img.height);
     img.set({
-      left: 30,
-      top: 235,
+      left: 50,
+      top: 260,
       scaleX: 1.7,
       scaleY: 1.7,
       selectable: false,
@@ -101,16 +129,16 @@ document.fonts.load("50px Gmarket").then(() => {
     top: 40,
     charSpacing: -40,
     fontFamily: FONTS.title,
-    fontSize: 80,
+    fontSize: 100,
     fill: COLORS.textWhite,
     fontWeight: "bold",
   });
 
   addText(items.price, {
-    left: 420,
-    top: 365,
+    left: 430,
+    top: 394,
     fontFamily: FONTS.title,
-    fontSize: 60,
+    fontSize: 80,
     fill: COLORS.textHighlight,
     fontWeight: "bold",
   });
@@ -118,9 +146,9 @@ document.fonts.load("50px Gmarket").then(() => {
 
 addText(items.sub_title, {
   left: 45,
-  top: 125,
+  top: 145,
   fontFamily: FONTS.subtitle,
-  fontSize: 50,
+  fontSize: 60,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
@@ -129,16 +157,12 @@ addText(items.sub_title, {
 addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 30 });
 addFlagImage("./assets/flag/be.png");
 
-function changeTop(img) {
-  console.log(img);
-}
-
 // IBU 섹션
 const IBU_Rect = new fabric.Rect({
-  left: 176,
-  top: 236,
-  width: 242,
-  height: 42,
+  left: 206,
+  top: 255,
+  width: RectSIZE.width,
+  height: RectSIZE.height,
   opacity: 0.2,
   fill: COLORS.textWhite,
   selectable: false,
@@ -146,10 +170,10 @@ const IBU_Rect = new fabric.Rect({
 canvas.add(IBU_Rect);
 
 addText("IBU", {
-  left: IBU_Rect.left + 15,
-  top: IBU_Rect.top + 8,
+  left: IBU_Rect.left + 10,
+  top: IBU_Rect.top + 11,
   fontFamily: FONTS.subtitle,
-  fontSize: 25,
+  fontSize: 28,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
@@ -166,14 +190,14 @@ function addHopImages(baseLeft, top, count, spacing, scale, opacity = 1) {
     });
   }
 }
-addHopImages(IBU_Rect.left + 80, IBU_Rect.top + 5, items.ibu, 30, 1.3, 0.4);
+addHopImages(IBU_Rect.left + 90, IBU_Rect.top + 8, items.ibu, 34, 1.4, 0.4);
 
 // ALC 섹션
 const ALC_Rect = new fabric.Rect({
-  left: 424,
-  top: 236,
-  width: 242,
-  height: 42,
+  left: 470,
+  top: 255,
+  width: RectSIZE.width,
+  height: RectSIZE.height,
   opacity: 0.2,
   fill: COLORS.textWhite,
   selectable: false,
@@ -182,7 +206,7 @@ canvas.add(ALC_Rect);
 
 const ALC_BACKGROUND = new fabric.Rect({
   left: ALC_Rect.left + 85,
-  top: ALC_Rect.top + 6,
+  top: ALC_Rect.top + 11,
   width: DIMENSIONS.alcWidth,
   height: DIMENSIONS.alcHeight,
   fill: COLORS.alcBackground,
@@ -192,16 +216,16 @@ const ALC_BACKGROUND = new fabric.Rect({
 canvas.add(ALC_BACKGROUND);
 
 addText("ALC", {
-  left: ALC_Rect.left + 15,
-  top: ALC_Rect.top + 8,
+  left: ALC_Rect.left + 12,
+  top: ALC_Rect.top + 11,
   fontFamily: FONTS.subtitle,
-  fontSize: 25,
+  fontSize: 28,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
 
 addText(items.alc, {
-  left: ALC_BACKGROUND.left + 45.3,
+  left: ALC_BACKGROUND.left + 50,
   top: ALC_BACKGROUND.top + 2,
   fontFamily: FONTS.subtitle,
   fontSize: 23,
@@ -210,44 +234,66 @@ addText(items.alc, {
 });
 
 const STYLE_Rect = new fabric.Rect({
-  left: 176,
-  top: 281,
-  width: 242,
-  height: 42,
+  left: 206,
+  top: 310,
+  width: RectSIZE.width,
+  height: RectSIZE.height,
   opacity: 0.2,
   fill: COLORS.textWhite,
   selectable: false,
 });
 
-const STYLE = new fabric.Text(items.style, {
-  left: STYLE_Rect.left + 15,
-  top: STYLE_Rect.top + 8,
+addText(items.style, {
+  left: STYLE_Rect.left + 11,
+  top: STYLE_Rect.top + 11,
   fontFamily: FONTS.subtitle,
-  fontSize: 23,
+  fontSize: 28,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
-canvas.add(STYLE_Rect, STYLE);
+canvas.add(STYLE_Rect);
 
 const CHARACTER_Rect = new fabric.Rect({
-  left: 424,
-  top: 281,
-  width: 242,
-  height: 42,
+  left: 470,
+  top: 310,
+  width: RectSIZE.width,
+  height: RectSIZE.height,
   opacity: 0.2,
   fill: COLORS.textWhite,
   selectable: false,
 });
 
-const CHARACTER = new fabric.Text(items.character, {
-  left: CHARACTER_Rect.left + 15,
-  top: CHARACTER_Rect.top + 8,
+// const CHARACTER = new fabric.Text(items.character, {
+//   left: CHARACTER_Rect.left + 12,
+//   top: CHARACTER_Rect.top + 11,
+//   fontFamily: FONTS.subtitle,
+//   fontSize: 28,
+//   fill: COLORS.textWhite,
+//   fontWeight: "bold",
+// });
+addText(items.character, {
+  left: CHARACTER_Rect.left + 10,
+  top: CHARACTER_Rect.top + 11,
   fontFamily: FONTS.subtitle,
-  fontSize: 23,
+  fontSize: 24,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
-canvas.add(CHARACTER_Rect, CHARACTER);
+
+canvas.add(CHARACTER_Rect);
+const border = new fabric.Rect({
+  left: 0,
+  top: 0,
+  width: canvas.width - 4,
+  height: canvas.height - 4,
+  fill: "",
+  stroke: "#DDDDDD",
+  strokeWidth: 4,
+  selectable: false,
+  evented: false,
+  strokeUniform: true,
+});
+canvas.add(border);
 
 // 다운로드 함수
 function downloadImage() {
