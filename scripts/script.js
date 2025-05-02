@@ -1,27 +1,3 @@
-// // 상수 정의
-// const COLORS = {
-//   background: "#BF1A20",
-//   textWhite: "white",
-//   textHighlight: "#C32534",
-//   alcBackground: "yellow",
-//   alcBorder: "#F2C235",
-// };
-// const FONTS = {
-//   title: "Gmarket",
-//   subtitle: "Acumin",
-// };
-// const DIMENSIONS = {
-//   canvasHeight: 350,
-//   alcWidth: 242 * 0.6,
-//   alcHeight: 42 * 0.7,
-// };
-
-// // 캔버스 초기화
-// const canvas = new fabric.Canvas("myCanvas", {
-//   backgroundColor: "white",
-//   selection: false,
-// });
-
 const canvas = new fabric.Canvas("myCanvas", {
   width: 786,
   height: 500,
@@ -30,8 +6,8 @@ const canvas = new fabric.Canvas("myCanvas", {
 });
 let items = {
   type: 1,
-  title: "조조조조",
-  sub_title: "CCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  title: "사장님 너무해요",
+  sub_title: "Sajagnim Neomuhaeyo",
   ibu: 3,
   country: "Belgium",
   discount: 3,
@@ -52,6 +28,7 @@ const COLORS = {
 const FONTS = {
   title: "Gmarket",
   subtitle: "Acumin",
+  price: "Typo",
 };
 const DIMENSIONS = {
   canvasHeight: 380,
@@ -133,11 +110,12 @@ document.fonts.load("50px Gmarket").then(() => {
     fill: COLORS.textWhite,
     fontWeight: "bold",
   });
-
+});
+document.fonts.load("50px Typo").then(() => {
   addText(items.price, {
-    left: 430,
+    left: 390,
     top: 394,
-    fontFamily: FONTS.title,
+    fontFamily: FONTS.price,
     fontSize: 80,
     fill: COLORS.textHighlight,
     fontWeight: "bold",
@@ -154,7 +132,7 @@ addText(items.sub_title, {
 });
 
 // 이미지 추가
-addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 30 });
+addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 40 });
 addFlagImage("./assets/flag/be.png");
 
 // IBU 섹션
