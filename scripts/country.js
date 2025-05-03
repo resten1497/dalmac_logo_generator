@@ -42,4 +42,6 @@ const countryCodes = {
   베트남: "vn",
 };
 
-export default countryCodes;
+function getCountryCode(countryName) {
+  return countryCodes[countryName] || null;
+}

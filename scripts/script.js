@@ -4,13 +4,14 @@ const canvas = new fabric.Canvas("myCanvas", {
   backgroundColor: "white",
   objectCaching: false,
 });
+
 let items = {
-  type: 1,
+  type: 2,
   title: "사장님 너무해요",
   sub_title: "Sajagnim Neomuhaeyo",
   ibu: 3,
-  country: "Belgium",
-  discount: 3,
+  country: getCountryCode("벨기에"),
+  discount: 2,
   alc: "4.0%",
   style: "Pastry Imperial Stout",
   character: "블랙베리 / Blackberry",
@@ -19,12 +20,54 @@ let items = {
 
 // 상수 정의
 const COLORS = {
-  background: "#BF1A20",
-  textWhite: "white",
+  background: setBackgroundColorType(items.type),
+  textWhite: getFontColor(items.type),
+  backgroundRect: "white",
   textHighlight: "#C32534",
   alcBackground: "yellow",
   alcBorder: "#F2C235",
 };
+
+function setBackgroundColorType(type) {
+  switch (type) {
+    case 1:
+      return "#BF1A20"; //White
+      break;
+    case 2:
+      return "#F2801F";
+      break;
+    case 3:
+      return "#ECBF15";
+      break;
+
+    case 4:
+      return "#6BB93C";
+      break;
+    case 5:
+      return "#0C5F2C"; // White
+      break;
+
+    case 6:
+      return "#133575"; // White
+      break;
+
+    case 7:
+      return "#1375AD"; // White
+      break;
+    case 8:
+      return "#4F2684"; // White
+      break;
+  }
+}
+
+function getFontColor(type) {
+  if (type === 1 || type === 5 || type === 6 || type === 7 || type === 8) {
+    return "white";
+  }
+  if (type === 2 || type === 3 || type === 4) {
+    return "black";
+  }
+}
 const FONTS = {
   title: "Gmarket",
   subtitle: "Acumin",
@@ -131,9 +174,18 @@ addText(items.sub_title, {
   fontWeight: "bold",
 });
 
+if (items.discount == 2) {
+  addImage("./assets/logo/two.png", { left: canvas.width - 150, top: 40 });
+}
+if (items.discount == 3) {
+  addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 40 });
+}
+if (items.discount == 4) {
+  addImage("./assets/logo/four.png", { left: canvas.width - 150, top: 40 });
+}
 // 이미지 추가
-addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 40 });
-addFlagImage("./assets/flag/be.png");
+
+addFlagImage("./assets/flag/" + items.country + ".png");
 
 // IBU 섹션
 const IBU_Rect = new fabric.Rect({
@@ -142,7 +194,7 @@ const IBU_Rect = new fabric.Rect({
   width: RectSIZE.width,
   height: RectSIZE.height,
   opacity: 0.2,
-  fill: COLORS.textWhite,
+  fill: COLORS.backgroundRect,
   selectable: false,
 });
 canvas.add(IBU_Rect);
@@ -177,7 +229,7 @@ const ALC_Rect = new fabric.Rect({
   width: RectSIZE.width,
   height: RectSIZE.height,
   opacity: 0.2,
-  fill: COLORS.textWhite,
+  fill: COLORS.backgroundRect,
   selectable: false,
 });
 canvas.add(ALC_Rect);
@@ -217,9 +269,10 @@ const STYLE_Rect = new fabric.Rect({
   width: RectSIZE.width,
   height: RectSIZE.height,
   opacity: 0.2,
-  fill: COLORS.textWhite,
+  fill: COLORS.backgroundRect,
   selectable: false,
 });
+canvas.add(STYLE_Rect);
 
 addText(items.style, {
   left: STYLE_Rect.left + 11,
@@ -229,7 +282,6 @@ addText(items.style, {
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
-canvas.add(STYLE_Rect);
 
 const CHARACTER_Rect = new fabric.Rect({
   left: 470,
@@ -237,28 +289,19 @@ const CHARACTER_Rect = new fabric.Rect({
   width: RectSIZE.width,
   height: RectSIZE.height,
   opacity: 0.2,
-  fill: COLORS.textWhite,
+  fill: COLORS.backgroundRect,
   selectable: false,
 });
+canvas.add(CHARACTER_Rect);
 
-// const CHARACTER = new fabric.Text(items.character, {
-//   left: CHARACTER_Rect.left + 12,
-//   top: CHARACTER_Rect.top + 11,
-//   fontFamily: FONTS.subtitle,
-//   fontSize: 28,
-//   fill: COLORS.textWhite,
-//   fontWeight: "bold",
-// });
 addText(items.character, {
   left: CHARACTER_Rect.left + 10,
-  top: CHARACTER_Rect.top + 11,
+  top: CHARACTER_Rect.top + 12,
   fontFamily: FONTS.subtitle,
   fontSize: 24,
   fill: COLORS.textWhite,
   fontWeight: "bold",
 });
-
-canvas.add(CHARACTER_Rect);
 const border = new fabric.Rect({
   left: 0,
   top: 0,

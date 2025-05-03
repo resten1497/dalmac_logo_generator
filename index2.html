@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fabric.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/fabric@5.3.0/dist/fabric.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
+    <style>
+      @font-face {
+        font-family: "Acumin";
+        src: url("./assets/fonts/Acumin-BdPro.otf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Gmarket";
+        src: url("./assets/fonts/GmarketSansTTFBold.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Typo";
+        src: url("./assets/fonts/Typo_SsangmunDong B.ttf") format("truetype");
+      }
+      #myCanvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="myCanvas" width="708" height="452"></canvas>
+    <button onclick="downloadImage()">이미지 다운로드</button>
+    <script src="scripts/country.js"></script>
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
