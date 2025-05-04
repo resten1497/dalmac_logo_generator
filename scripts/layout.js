@@ -4,18 +4,29 @@ const canvas = new fabric.Canvas("myCanvas", {
   backgroundColor: "white",
   objectCaching: false,
 });
-
+const requiredFields = [
+  "type",
+  "BeerName",
+  "price",
+  "EnglishName",
+  "country",
+  "IBU",
+  "ALC",
+  "Style",
+  "tasteNote",
+];
 let items = {
   type: 2,
-  title: "사장님 너무해요",
-  sub_title: "Sajagnim Neomuhaeyo",
+  title: "동해물과백두산이마르고닳도록하느님이보우하사", // 11자
+  sub_title: "AAAAAAAAAAAAAAAAAAAAAAA", // 21자
   ibu: 3,
   country: getCountryCode("벨기에"),
   discount: 2,
   alc: "4.0%",
   style: "Pastry Imperial Stout",
   character: "블랙베리 / Blackberry",
-  price: "7,500 원",
+  SalePrice: "64,12500 원",
+  price: "36,600 원",
 };
 
 // 상수 정의
@@ -91,7 +102,10 @@ const Background = new fabric.Rect({
   selectable: false,
 });
 canvas.add(Background);
-
+function scaleObjectToWidth(obj, targetWidth) {
+  if (!obj || !targetWidth || obj.width === 0) return;
+  obj.scaleX = targetWidth / obj.width;
+}
 // 텍스트 추가 함수
 function addText(content, options) {
   const text = new fabric.Text(content, {
@@ -104,6 +118,44 @@ function addText(content, options) {
   canvas.add(text);
   return text;
 }
+function addEnglishText(content, options) {
+  const text = new fabric.Text(content, {
+    ...options,
+    selectable: false,
+  });
+  scaleObjectToWidth(text, 660);
+
+  canvas.add(text);
+  return text;
+}
+function addPriceText(content, options) {
+  const text = new fabric.Text(content, {
+    ...options,
+    selectable: false,
+  });
+  console.log(text.text.length);
+  text.set({ left: canvas.width - text.width - 40 });
+  //scaleObjectToWidth(text, 300);
+  canvas.add(text);
+  return text;
+}
+function addSalePriceText(content, options) {
+  const text = new fabric.Text(content, {
+    ...options,
+    selectable: false,
+  });
+  console.log(text.text.length);
+  text.set({ left: 40 });
+  canvas.add(text);
+  scaleObjectToWidth(text, 300);
+  const arrow = new fabric.Text("→", {
+    ...options,
+    selectable: false,
+  });
+  arrow.set({ left: 360 });
+  canvas.add(arrow);
+  return text;
+}
 
 // 텍스트 추가 함수
 function addKRText(content, options) {
@@ -111,15 +163,12 @@ function addKRText(content, options) {
     ...options,
     selectable: false,
   });
-  if (text.text.length > 7) {
-    text.set({ scaleX: 0.75 });
-  }
-  if (text.text.length > 9) {
-    text.set({ scaleX: 0.6 });
-  }
+  console.log(text.text.length);
+  scaleObjectToWidth(text, 600);
   canvas.add(text);
   return text;
 }
+
 // 이미지 추가 함수
 function addImage(url, options) {
   fabric.Image.fromURL(url, function (img) {
@@ -154,20 +203,37 @@ document.fonts.load("50px Gmarket").then(() => {
     fontWeight: "bold",
   });
 });
+
 document.fonts.load("50px Typo").then(() => {
-  addText(items.price, {
-    left: 390,
-    top: 394,
+  // addPriceText(items.price, {
+  //   top: 394,
+  //   fontFamily: FONTS.price,
+  //   fontSize: 70,
+  //   textAlign: "right",
+  //   fill: COLORS.textHighlight,
+  //   fontWeight: "bold",
+  // });
+  addPriceText("12,000 원", {
+    top: 399,
     fontFamily: FONTS.price,
-    fontSize: 80,
+    fontSize: 70,
+    textAlign: "right",
     fill: COLORS.textHighlight,
     fontWeight: "bold",
   });
+  // addSalePriceText("6,000 원", {
+  //   top: 399,
+  //   fontFamily: FONTS.price,
+  //   fontSize: 70,
+  //   textAlign: "left",
+  //   fill: COLORS.textHighlight,
+  //   fontWeight: "bold",
+  // });
 });
 
-addText(items.sub_title, {
+addEnglishText(items.sub_title, {
   left: 45,
-  top: 145,
+  top: 170,
   fontFamily: FONTS.subtitle,
   fontSize: 60,
   fill: COLORS.textWhite,
@@ -175,13 +241,28 @@ addText(items.sub_title, {
 });
 
 if (items.discount == 2) {
-  addImage("./assets/logo/two.png", { left: canvas.width - 150, top: 40 });
+  addImage("./assets/logo/two.png", {
+    left: canvas.width - 120,
+    top: 40,
+    scaleX: 1.2,
+    scaleY: 1.2,
+  });
 }
 if (items.discount == 3) {
-  addImage("./assets/logo/three.png", { left: canvas.width - 150, top: 40 });
+  addImage("./assets/logo/three.png", {
+    left: canvas.width - 120,
+    top: 40,
+    scaleX: 1.2,
+    scaleY: 1.2,
+  });
 }
 if (items.discount == 4) {
-  addImage("./assets/logo/four.png", { left: canvas.width - 150, top: 40 });
+  addImage("./assets/logo/four.png", {
+    left: canvas.width - 120,
+    top: 40,
+    scaleX: 1.2,
+    scaleY: 1.2,
+  });
 }
 // 이미지 추가
 
@@ -305,11 +386,11 @@ addText(items.character, {
 const border = new fabric.Rect({
   left: 0,
   top: 0,
-  width: canvas.width - 4,
-  height: canvas.height - 4,
+  width: canvas.width - 6,
+  height: canvas.height - 6,
   fill: "",
-  stroke: "#DDDDDD",
-  strokeWidth: 4,
+  stroke: "#bbbbbb",
+  strokeWidth: 6,
   selectable: false,
   evented: false,
   strokeUniform: true,
