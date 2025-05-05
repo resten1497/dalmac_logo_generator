@@ -18,10 +18,10 @@ const requiredFields = [
 let items = {
   type: 2,
   title: "동해물과백두산이마르고닳도록하느님이보우하사", // 11자
-  sub_title: "AAAAAAAAAAAAAAAAAAAAAAA", // 21자
+  sub_title: "AAAAAAAAsAAAAAAAAAAAAAAAAAAA", // 27자
   ibu: 3,
   country: getCountryCode("벨기에"),
-  discount: 2,
+  discount: 4,
   alc: "4.0%",
   style: "Pastry Imperial Stout",
   character: "블랙베리 / Blackberry",
@@ -123,8 +123,11 @@ function addEnglishText(content, options) {
     ...options,
     selectable: false,
   });
-  scaleObjectToWidth(text, 660);
 
+  scaleObjectToWidth(text, 650);
+  if (text.text.length < 20) {
+    text.set({ scaleX: 1 });
+  }
   canvas.add(text);
   return text;
 }
@@ -195,7 +198,7 @@ function addFlagImage(url, options) {
 document.fonts.load("50px Gmarket").then(() => {
   addKRText(items.title, {
     left: 40,
-    top: 40,
+    top: 50,
     charSpacing: -40,
     fontFamily: FONTS.title,
     fontSize: 100,
@@ -242,7 +245,7 @@ addEnglishText(items.sub_title, {
 
 if (items.discount == 2) {
   addImage("./assets/logo/two.png", {
-    left: canvas.width - 120,
+    left: canvas.width - 140,
     top: 40,
     scaleX: 1.2,
     scaleY: 1.2,
@@ -250,7 +253,7 @@ if (items.discount == 2) {
 }
 if (items.discount == 3) {
   addImage("./assets/logo/three.png", {
-    left: canvas.width - 120,
+    left: canvas.width - 140,
     top: 40,
     scaleX: 1.2,
     scaleY: 1.2,
@@ -258,7 +261,7 @@ if (items.discount == 3) {
 }
 if (items.discount == 4) {
   addImage("./assets/logo/four.png", {
-    left: canvas.width - 120,
+    left: canvas.width - 140,
     top: 40,
     scaleX: 1.2,
     scaleY: 1.2,

@@ -228,8 +228,10 @@ function createImageAsDataUrl(row) {
         ...options,
         selectable: false,
       });
-      scaleObjectToWidth(text, 660);
-
+      scaleObjectToWidth(text, 650);
+      if (text.text.length < 20) {
+        text.set({ scaleX: 1 });
+      }
       canvas.add(text);
       return text;
     }
@@ -281,7 +283,7 @@ function createImageAsDataUrl(row) {
     document.fonts.load("50px Gmarket").then(() => {
       addKRText(row.BeerName, {
         left: 40,
-        top: 40,
+        top: 50,
         charSpacing: -40,
         fontFamily: FONTS.title,
         fontSize: 100,
@@ -310,7 +312,7 @@ function createImageAsDataUrl(row) {
 
     if (row.Discount == 2) {
       addImage("./assets/logo/two.png", {
-        left: canvas.width - 120,
+        left: canvas.width - 140,
         top: 40,
         scaleX: 1.2,
         scaleY: 1.2,
@@ -318,7 +320,7 @@ function createImageAsDataUrl(row) {
     }
     if (row.Discount == 3) {
       addImage("./assets/logo/three.png", {
-        left: canvas.width - 120,
+        left: canvas.width - 140,
         top: 40,
         scaleX: 1.2,
         scaleY: 1.2,
@@ -326,7 +328,7 @@ function createImageAsDataUrl(row) {
     }
     if (row.Discount == 4) {
       addImage("./assets/logo/four.png", {
-        left: canvas.width - 120,
+        left: canvas.width - 140,
         top: 40,
         scaleX: 1.2,
         scaleY: 1.2,
