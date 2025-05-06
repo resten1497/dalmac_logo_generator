@@ -135,8 +135,7 @@ function generateImage(canvas, row) {
       img.set({
         left: 50,
         top: 260,
-        scaleX: 1.7,
-        scaleY: 1.7,
+
         selectable: false,
         stroke: "black",
         strokeWidth: 0.1,
@@ -150,7 +149,7 @@ function generateImage(canvas, row) {
       selectable: false,
     });
     scaleObjectToWidth(text, 600);
-    if (text.text.length < 7) {
+    if (text.text.length < 6) {
       text.set({ scaleX: 1 });
     }
     canvas.add(text);
@@ -169,10 +168,11 @@ function generateImage(canvas, row) {
     });
   });
   document.fonts.load("50px Typo").then(() => {
-    addPriceText(row.price, {
+    addPriceText(Number(row.price).toLocaleString() + " 원", {
       top: 394,
       fontFamily: FONTS.price,
       fontSize: 80,
+      charSpacing: -40,
       fill: COLORS.textHighlight,
       fontWeight: "bold",
     });
