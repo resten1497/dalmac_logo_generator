@@ -147,8 +147,8 @@ async function generateMergedA4Image(dataArray) {
             const row = i % rows;
             ctx.drawImage(
               img,
-              offsetX + row * (cellWidth + 10),
-              offsetY + col * (cellHeight + 10),
+              offsetX + row * cellWidth,
+              offsetY + col * cellHeight,
               cellWidth,
               cellHeight
             );
