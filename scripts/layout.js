@@ -105,7 +105,7 @@ function generateImage(canvas, row) {
       ...options,
       selectable: false,
     });
-    scaleObjectToWidth(text, 650);
+    scaleObjectToWidth(text, 600);
     if (text.text.length < 19) {
       text.set({ scaleX: 1 });
     }
@@ -148,7 +148,7 @@ function generateImage(canvas, row) {
       ...options,
       selectable: false,
     });
-    scaleObjectToWidth(text, 600);
+    scaleObjectToWidth(text, 580);
     if (text.text.length < 6) {
       text.set({ scaleX: 1 });
     }
@@ -159,7 +159,7 @@ function generateImage(canvas, row) {
   document.fonts.load("50px Gmarket").then(() => {
     addKRText(row.BeerName, {
       left: 40,
-      top: 50,
+      top: 35,
       charSpacing: -40,
       fontFamily: FONTS.title,
       fontSize: 100,
@@ -180,35 +180,35 @@ function generateImage(canvas, row) {
 
   addEnglishText(row.EnglishName, {
     left: 45,
-    top: 170,
+    top: 145,
     fontFamily: FONTS.subtitle,
-    fontSize: 60,
+    fontSize: 55,
     fill: COLORS.textWhite,
     fontWeight: "bold",
   });
 
   if (row.Discount == 2) {
     addImage("./assets/logo/two.png", {
-      left: canvas.width - 140,
+      left: canvas.width - 160,
       top: 40,
-      scaleX: 1.2,
-      scaleY: 1.2,
+      scaleX: 1.4,
+      scaleY: 1.4,
     });
   }
   if (row.Discount == 3) {
     addImage("./assets/logo/three.png", {
-      left: canvas.width - 140,
+      left: canvas.width - 160,
       top: 40,
-      scaleX: 1.2,
-      scaleY: 1.2,
+      scaleX: 1.4,
+      scaleY: 1.4,
     });
   }
   if (row.Discount == 4) {
     addImage("./assets/logo/four.png", {
-      left: canvas.width - 140,
+      left: canvas.width - 160,
       top: 40,
-      scaleX: 1.2,
-      scaleY: 1.2,
+      scaleX: 1.4,
+      scaleY: 1.4,
     });
   }
   // 이미지 추가
