@@ -105,7 +105,7 @@ function generateImage(canvas, row) {
       ...options,
       selectable: false,
     });
-    scaleObjectToWidth(text, 600);
+    scaleObjectToWidth(text, 560);
     if (text.text.length < 19) {
       text.set({ scaleX: 1 });
     }
@@ -148,7 +148,7 @@ function generateImage(canvas, row) {
       ...options,
       selectable: false,
     });
-    scaleObjectToWidth(text, 580);
+    scaleObjectToWidth(text, 560);
     if (text.text.length < 6) {
       text.set({ scaleX: 1 });
     }
@@ -172,7 +172,7 @@ function generateImage(canvas, row) {
       top: 394,
       fontFamily: FONTS.price,
       fontSize: 80,
-      charSpacing: -40,
+      charSpacing: 0,
       fill: COLORS.textHighlight,
       fontWeight: "bold",
     });
