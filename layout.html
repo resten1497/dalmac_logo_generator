@@ -32,5 +32,45 @@
     <button onclick="downloadImage()">이미지 다운로드</button>
     <script src="scripts/country.js"></script>
     <script src="scripts/layout.js"></script>
+    <script>
+      const canvas = new fabric.Canvas("myCanvas", {
+        width: 786,
+        height: 500,
+        margin: 10,
+        backgroundColor: "white",
+        objectCaching: false,
+      });
+      let row = {
+        type: 2,
+        BeerName: "달몬트  ", // 11자
+        EnglishName: "AAAAAAAAAAAAAAAAAAA", // 27자
+        IBU: 3,
+        country: "한국",
+        Discount: 3,
+        ALC: 4.5,
+        Style: "Smoothie",
+        tasteNote: "패션후르츠 / Passionfruit",
+        SalePrice: "64,12500 원",
+        price: "36,600 원",
+      };
+      generateImage(canvas, row);
+      function downloadImage() {
+        const base64 = canvas.toDataURL({ format: "jpeg", quality: 1.0 });
+        const exifObj = {
+          "0th": {
+            282: [300, 1],
+            283: [300, 1],
+            296: 2,
+          },
+        };
+        const exifBytes = piexif.dump(exifObj);
+        const newData = piexif.insert(exifBytes, base64);
+
+        const link = document.createElement("a");
+        link.download = "output.jpeg";
+        link.href = newData;
+        link.click();
+      }
+    </script>
   </body>
 </html>
