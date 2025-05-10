@@ -117,8 +117,8 @@ function generateImage(canvas, row) {
       ...options,
       selectable: false,
     });
-
-    text.set({ left: canvas.width - text.width - 50 });
+    const actualWidth = text.width * text.scaleX;
+    text.set({ left: canvas.width - actualWidth - 50, originX: "left" });
 
     canvas.add(text);
     return text;
@@ -172,7 +172,8 @@ function generateImage(canvas, row) {
       top: 394,
       fontFamily: FONTS.price,
       fontSize: 80,
-      charSpacing: 0,
+      charSpacing: -20,
+      scaleX: 0.85,
       fill: COLORS.textHighlight,
       fontWeight: "bold",
     });
