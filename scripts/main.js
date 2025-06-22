@@ -209,6 +209,32 @@ function createImageAsDataUrl(row) {
     }
   }
 
+  // salePrice는 선택 필드 - 존재하면 유효성만 확인
+  if ("salePrice" in row) {
+    const sale = row.salePrice;
+
+    if (
+      sale != null &&
+      !(
+        typeof sale === "number" ||
+        (typeof sale === "string" && sale.trim() !== "")
+      )
+    ) {
+      console.warn("salePrice 값이 유효하지 않습니다. 무시됩니다:", sale);
+      // 필요 시 기본값 설정 또는 경고만 출력
+    }
+
+    // 문자열인 경우 숫자로 변환 (엑셀에서 숫자가 문자열로 올 수 있음)
+    if (typeof sale === "string") {
+      const parsed = parseFloat(sale);
+      if (!isNaN(parsed)) {
+        row.salePrice = parsed;
+      } else {
+        console.warn("salePrice가 숫자로 변환되지 않아 무시됩니다:", sale);
+        delete row.salePrice; // 또는 기본값 할당
+      }
+    }
+  }
   return new Promise((resolve) => {
     // 배경 추가
     const canvas = new fabric.Canvas(null, {

@@ -112,6 +112,18 @@ function generateImage(canvas, row) {
     canvas.add(text);
     return text;
   }
+  function addSalePriceText(content, options) {
+    const text = new fabric.Text(content, {
+      ...options,
+      selectable: false,
+    });
+    text.set({ left: 50 });
+    text.set({ scaleX: 0.8 });
+    scaleObjectToWidth(text, 700);
+
+    canvas.add(text);
+    return text;
+  }
   function addPriceText(content, options) {
     const text = new fabric.Text(content, {
       ...options,
@@ -168,14 +180,31 @@ function generateImage(canvas, row) {
     });
   });
   document.fonts.load("50px Typo").then(() => {
-    addPriceText(Number(row.price).toLocaleString() + " 원", {
-      top: 394,
-      fontFamily: FONTS.price,
-      fontSize: 80,
-      charSpacing: 0,
-      fill: COLORS.textHighlight,
-      fontWeight: "bold",
-    });
+    if (row.salePrice) {
+      addSalePriceText(
+        Number(row.price).toLocaleString() +
+          " 원 → " +
+          Number(row.salePrice).toLocaleString() +
+          " 원",
+        {
+          top: 398,
+          fontFamily: FONTS.price,
+          fontSize: 76,
+          charSpacing: 0,
+          fill: COLORS.textHighlight,
+          fontWeight: "bold",
+        }
+      );
+    } else {
+      addPriceText(Number(row.price).toLocaleString() + " 원", {
+        top: 394,
+        fontFamily: FONTS.price,
+        fontSize: 80,
+        charSpacing: 0,
+        fill: COLORS.textHighlight,
+        fontWeight: "bold",
+      });
+    }
   });
 
   addEnglishText(row.EnglishName, {
