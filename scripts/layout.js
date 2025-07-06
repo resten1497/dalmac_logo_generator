@@ -210,6 +210,7 @@ function generateImage(canvas, row) {
     fontFamily: FONTS.subtitle,
     fontSize: 55,
     fill: COLORS.textWhite,
+    fontWeight: "bold",
   });
 
   if (row.Discount == 2) {
