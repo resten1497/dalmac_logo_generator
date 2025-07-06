@@ -41,6 +41,7 @@ const countryCodes = {
   우루과이: "uy",
   베트남: "vn",
   태국: "th",
+  에스토디아: "ee",
 };
 
 function getCountryCode(countryName) {
