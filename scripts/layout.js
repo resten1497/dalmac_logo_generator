@@ -176,7 +176,6 @@ function generateImage(canvas, row) {
       fontFamily: FONTS.title,
       fontSize: 100,
       fill: COLORS.textWhite,
-      fontWeight: "bold",
     });
   });
   document.fonts.load("50px Typo").then(() => {
@@ -192,7 +191,6 @@ function generateImage(canvas, row) {
           fontSize: 76,
           charSpacing: 0,
           fill: COLORS.textHighlight,
-          fontWeight: "bold",
         }
       );
     } else {
@@ -202,7 +200,6 @@ function generateImage(canvas, row) {
         fontSize: 80,
         charSpacing: 0,
         fill: COLORS.textHighlight,
-        fontWeight: "bold",
       });
     }
   });
@@ -213,7 +210,6 @@ function generateImage(canvas, row) {
     fontFamily: FONTS.subtitle,
     fontSize: 55,
     fill: COLORS.textWhite,
-    fontWeight: "bold",
   });
 
   if (row.Discount == 2) {
